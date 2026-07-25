@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+*.tsbuildinfo
+.gemini
+.system_generated
+.DS_Store
+.env
+.env.*
