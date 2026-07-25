@@ -18,9 +18,7 @@ const DEFAULT_SETTINGS: Settings = {
 
 export async function getSettings(): Promise<Settings> {
   const existing = await db.settings.get(SETTINGS_ID)
-  if (existing) return existing
-  await db.settings.add(DEFAULT_SETTINGS)
-  return DEFAULT_SETTINGS
+  return existing ?? DEFAULT_SETTINGS
 }
 
 export async function upsertSettings(data: Partial<Omit<Settings, 'id'>>): Promise<void> {
@@ -40,9 +38,7 @@ const DEFAULT_NUTRITION_GOALS: NutritionGoals = {
 
 export async function getNutritionGoals(): Promise<NutritionGoals> {
   const existing = await db.nutritionGoals.get(NUTRITION_GOALS_ID)
-  if (existing) return existing
-  await db.nutritionGoals.add(DEFAULT_NUTRITION_GOALS)
-  return DEFAULT_NUTRITION_GOALS
+  return existing ?? DEFAULT_NUTRITION_GOALS
 }
 
 export async function upsertNutritionGoals(data: Partial<Omit<NutritionGoals, 'id'>>): Promise<void> {

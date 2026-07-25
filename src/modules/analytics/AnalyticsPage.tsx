@@ -66,7 +66,7 @@ export default function AnalyticsPage() {
   const daysCount = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 14
 
   // Fetch recent logs across modules
-  const allHabits = useLiveQuery(() => db.habits.where('archivedAt').equals('').or('archivedAt').equals(undefined as any).toArray()) ?? []
+  const allHabits = useLiveQuery(() => db.habits.filter((h) => !h.archivedAt).toArray()) ?? []
   const allHabitLogs = useLiveQuery(() => db.habitLogs.toArray()) ?? []
   const allTasks = useLiveQuery(() => db.tasks.toArray()) ?? []
   const allWaterLogs = useLiveQuery(() => db.waterLogs.toArray()) ?? []

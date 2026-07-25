@@ -29,7 +29,7 @@ export default function ProjectsPage() {
   const [msTitle, setMsTitle] = useState('')
   const [msDue, setMsDue] = useState(localDateString())
 
-  const projects = useLiveQuery(() => db.projects.where('archivedAt').equals('').or('archivedAt').equals(undefined as any).toArray()) ?? []
+  const projects = useLiveQuery(() => db.projects.filter((p) => !p.archivedAt).toArray()) ?? []
   const activeProject = projects.find((p) => p.id === selectedProjectId) ?? projects[0]
 
   const projectTasks = useLiveQuery(() => 
