@@ -33,7 +33,7 @@ export default function ProjectsPage() {
   const activeProject = projects.find((p) => p.id === selectedProjectId) ?? projects[0]
 
   const projectTasks = useLiveQuery(() => 
-    activeProject ? db.tasks.where('projectId').equals(activeProject.id).toArray() : []
+    activeProject && typeof activeProject.id === 'string' && activeProject.id ? db.tasks.where('projectId').equals(activeProject.id).toArray() : []
   , [activeProject?.id]) ?? []
 
   const saveProject = async () => {

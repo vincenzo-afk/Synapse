@@ -66,57 +66,60 @@ export default function TodayPage() {
   })
 
   return (
-    <div className="max-w-4xl mx-auto px-6 py-8">
-      {/* ── Header ── */}
+    <div className="max-w-5xl mx-auto space-y-12">
+      {/* ── Header Banner ── */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
+        className="p-8 rounded-[24px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[8px_8px_0px_#111111] space-y-8"
       >
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <Sun size={20} className="text-[var(--color-warning)]" />
-              <span className="text-sm font-medium text-[var(--color-text-secondary)]">
+            <div className="flex items-center gap-3 mb-2">
+              <Sun size={24} className="text-[var(--color-warning)]" />
+              <span className="text-base font-extrabold text-[var(--color-text-secondary)] uppercase tracking-wider">
                 {formatDate(new Date())}
               </span>
             </div>
-            <h1 className="text-3xl font-bold text-[var(--color-text-primary)]">
+            <h1 className="text-[32px] md:text-[44px] font-black text-[var(--color-text-primary)] leading-tight">
               {getGreeting()} 👋
             </h1>
           </div>
 
           {/* Daily Score */}
-          <div className="flex flex-col items-center gap-1">
-            <ProgressRing value={dailyScore} size={72} strokeWidth={5}>
+          <div className="flex items-center gap-4 p-4 rounded-[18px] border-3 border-[#111111] bg-[var(--color-surface-elevated)] shadow-[4px_4px_0px_#111111]">
+            <ProgressRing value={dailyScore} size={80} strokeWidth={6}>
               <div className="text-center">
-                <div className="font-mono text-lg font-bold text-[var(--color-text-primary)] leading-none">
+                <div className="font-mono text-2xl font-black text-[var(--color-text-primary)] leading-none">
                   {dailyScore}
                 </div>
               </div>
             </ProgressRing>
-            <span className="text-xs text-[var(--color-text-tertiary)]">Daily Score</span>
+            <div>
+              <div className="text-base font-extrabold text-[var(--color-text-primary)] uppercase tracking-wide">Daily Score</div>
+              <div className="text-xs font-semibold text-[var(--color-text-secondary)]">Analytics Aggregation</div>
+            </div>
           </div>
         </div>
 
         {/* At-a-glance stats */}
-        <div className="grid grid-cols-3 gap-3 mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
           <StatPill
-            icon={<Target size={14} />}
+            icon={<Target size={20} />}
             label="Habits"
             value={`${habitLogs.filter((l) => l.completed).length}/${habits.length}`}
             color="var(--color-habits)"
             pct={breakdown.habitsScore}
           />
           <StatPill
-            icon={<CheckSquare size={14} />}
+            icon={<CheckSquare size={20} />}
             label="Tasks"
             value={`${completedTasks.length}/${todayTasks.length + completedTasks.length}`}
             color="var(--color-tasks)"
             pct={breakdown.tasksScore}
           />
           <StatPill
-            icon={<Droplets size={14} />}
+            icon={<Droplets size={20} />}
             label="Water"
             value={`${Math.round(waterTotal / 100) / 10}L`}
             color="var(--color-hydration)"
@@ -126,7 +129,7 @@ export default function TodayPage() {
       </motion.div>
 
       {/* ── Sections ── */}
-      <div className="space-y-6">
+      <div className="space-y-12">
         <TodayHabits habits={habits} logs={habitLogs} date={today} />
         <TodayTasks tasks={todayTasks} />
         <TodayHydration
@@ -137,27 +140,6 @@ export default function TodayPage() {
         />
         <TodaySleep sleepLog={sleepLog ?? null} />
       </div>
-
-      {/* ── Quick Add FAB ── */}
-      <motion.button
-        whileTap={{ scale: 0.95 }}
-        whileHover={{ scale: 1.05 }}
-        onClick={() => setQuickAddOpen(true)}
-        className="
-          fixed bottom-6 left-1/2 -translate-x-1/2
-          flex items-center gap-2 px-5 h-12
-          bg-[var(--color-accent)] text-white
-          rounded-[var(--radius-full)]
-          shadow-[var(--shadow-xl)]
-          text-sm font-semibold
-          hover:bg-[var(--color-accent-hover)]
-          transition-colors duration-150
-          z-30
-        "
-      >
-        <Zap size={16} />
-        Quick Add
-      </motion.button>
 
       <QuickAdd open={quickAddOpen} onClose={() => setQuickAddOpen(false)} />
     </div>
@@ -176,17 +158,18 @@ function StatPill({
   return (
     <div
       className="
-        rounded-[var(--radius-lg)] p-3
-        bg-[var(--color-surface)]
-        border border-[var(--color-border)]
+        rounded-[20px] p-6
+        bg-[var(--color-surface-elevated)]
+        border-4 border-[#111111]
+        shadow-[6px_6px_0px_#111111]
       "
     >
-      <div className="flex items-center gap-1.5 mb-2" style={{ color }}>
+      <div className="flex items-center gap-3 mb-3" style={{ color }}>
         {icon}
-        <span className="text-xs font-medium">{label}</span>
+        <span className="text-base font-extrabold uppercase tracking-wide">{label}</span>
       </div>
-      <div className="font-semibold text-[var(--color-text-primary)] text-sm mb-2">{value}</div>
-      <div className="h-1 rounded-full bg-[var(--color-border)] overflow-hidden">
+      <div className="font-extrabold text-[var(--color-text-primary)] text-2xl mb-3 font-mono">{value}</div>
+      <div className="h-2.5 rounded-full border-2 border-[#111111] bg-[var(--color-background)] overflow-hidden">
         <motion.div
           className="h-full rounded-full"
           style={{ backgroundColor: color }}

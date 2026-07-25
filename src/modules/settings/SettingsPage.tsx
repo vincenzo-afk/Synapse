@@ -35,23 +35,23 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-5xl mx-auto space-y-12">
       {/* Header Banner */}
-      <div className="flex items-center gap-4 p-6 rounded-[24px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[6px_6px_0px_#111111]">
-        <div className="w-14 h-14 rounded-[18px] border-4 border-[#111111] bg-[var(--color-accent)] text-white flex items-center justify-center shadow-[4px_4px_0px_#111111]">
-          <Settings size={28} strokeWidth={2.5} />
+      <div className="flex items-center gap-5 p-8 rounded-[24px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[8px_8px_0px_#111111]">
+        <div className="w-16 h-16 rounded-[20px] border-4 border-[#111111] bg-[var(--color-accent)] text-white flex items-center justify-center shadow-[4px_4px_0px_#111111] shrink-0">
+          <Settings size={32} strokeWidth={2.5} />
         </div>
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-[var(--color-text-primary)]">System Settings</h1>
-          <p className="text-base font-semibold text-[var(--color-text-secondary)]">Appearance, Design Tokens, Reminders & Data Management</p>
+          <h1 className="text-[32px] md:text-[44px] font-black tracking-tight text-[var(--color-text-primary)] leading-tight">System Settings</h1>
+          <p className="text-lg font-extrabold text-[var(--color-text-secondary)]">Appearance, Design Tokens, Reminders & Data Management</p>
         </div>
       </div>
 
       {/* 1. Theme & Appearance Category */}
-      <div className="p-8 rounded-[20px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[6px_6px_0px_#111111] space-y-6">
-        <div className="flex items-center gap-3 pb-4 border-b-4 border-[#111111]">
-          <Palette size={24} strokeWidth={2.5} className="text-[var(--color-accent)]" />
-          <h2 className="text-2xl font-extrabold text-[var(--color-text-primary)]">Appearance & Color System</h2>
+      <div className="p-8 rounded-[22px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[8px_8px_0px_#111111] space-y-8">
+        <div className="flex items-center gap-3.5 pb-4 border-b-4 border-[#111111]">
+          <Palette size={26} strokeWidth={2.5} className="text-[var(--color-accent)]" />
+          <h2 className="text-[22px] font-extrabold text-[var(--color-text-primary)]">Appearance & Color System</h2>
         </div>
 
         {/* Theme Selectors */}

@@ -16,10 +16,10 @@ interface CardProps extends HTMLMotionProps<'div'> {
 
 const paddingStyles = {
   none: '',
-  sm: 'p-4',
-  md: 'p-6',
-  lg: 'p-8',
-  xl: 'p-10',
+  sm: 'p-6',
+  md: 'p-8',
+  lg: 'p-10',
+  xl: 'p-12',
 }
 
 export function Card({
@@ -35,11 +35,11 @@ export function Card({
     <motion.div
       className={`
         relative overflow-hidden
-        rounded-[20px]
+        rounded-[22px]
         border-4 border-[#111111]
         bg-[var(--color-surface)]
-        shadow-[6px_6px_0px_#111111]
-        ${interactive ? 'cursor-pointer transition-all duration-200 hover:shadow-[8px_8px_0px_#111111] hover:-translate-y-1 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[4px_4px_0px_#111111]' : ''}
+        shadow-[8px_8px_0px_#111111]
+        ${interactive ? 'cursor-pointer transition-all duration-200 hover:shadow-[10px_10px_0px_#111111] hover:-translate-y-1 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[4px_4px_0px_#111111]' : ''}
         ${paddingStyles[padding]}
         ${className}
       `}
@@ -47,7 +47,7 @@ export function Card({
     >
       {accentColor && (
         <div
-          className="absolute top-0 left-0 right-0 h-2.5 border-b-4 border-[#111111]"
+          className="absolute top-0 left-0 right-0 h-3 border-b-4 border-[#111111]"
           style={{ backgroundColor: accentColor }}
         />
       )}
@@ -60,7 +60,7 @@ export function Card({
 
 export function CardHeader({ className = '', children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`flex items-center justify-between mb-5 gap-4 ${className}`} {...props}>
+    <div className={`flex items-center justify-between mb-6 pb-4 border-b-4 border-[#111111] gap-4 ${className}`} {...props}>
       {children}
     </div>
   )
@@ -69,7 +69,7 @@ export function CardHeader({ className = '', children, ...props }: HTMLAttribute
 export function CardTitle({ className = '', children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={`text-xl font-bold tracking-tight text-[var(--color-text-primary)] ${className}`}
+      className={`text-[22px] font-extrabold tracking-tight text-[var(--color-text-primary)] leading-snug ${className}`}
       {...props}
     >
       {children}
@@ -87,7 +87,7 @@ export function CardContent({ className = '', children, ...props }: HTMLAttribut
 
 export function CardFooter({ className = '', children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`mt-6 pt-5 border-t-4 border-[#111111] flex items-center gap-3 ${className}`} {...props}>
+    <div className={`mt-8 pt-6 border-t-4 border-[#111111] flex items-center gap-4 ${className}`} {...props}>
       {children}
     </div>
   )

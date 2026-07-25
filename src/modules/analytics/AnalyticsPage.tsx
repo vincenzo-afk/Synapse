@@ -153,27 +153,29 @@ export default function AnalyticsPage() {
   }, [allTransactions])
 
   return (
-    <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-2">
-          <BarChart3 size={24} className="text-[var(--color-accent)]" />
+    <div className="max-w-6xl mx-auto space-y-12">
+      {/* Header Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between p-8 rounded-[24px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[8px_8px_0px_#111111] gap-6">
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-[20px] border-4 border-[#111111] bg-[var(--color-accent)] text-white flex items-center justify-center shadow-[4px_4px_0px_#111111] shrink-0">
+            <BarChart3 size={32} strokeWidth={2.5} />
+          </div>
           <div>
-            <h1 className="text-2xl font-bold text-[var(--color-text-primary)]">Analytics & Insights</h1>
-            <p className="text-xs text-[var(--color-text-tertiary)]">Cross-module correlation and performance metrics</p>
+            <h1 className="text-[32px] md:text-[44px] font-black tracking-tight text-[var(--color-text-primary)] leading-tight">Analytics & Insights</h1>
+            <p className="text-lg font-extrabold text-[var(--color-text-secondary)]">Cross-module correlation and performance metrics</p>
           </div>
         </div>
 
         {/* Time Range Selector */}
-        <div className="flex gap-1 p-1 bg-[var(--color-surface-elevated)] rounded-[var(--radius-lg)] border border-[var(--color-border)] self-start sm:self-auto">
+        <div className="flex gap-2 p-2 bg-[var(--color-surface-elevated)] rounded-[18px] border-3 border-[#111111] shadow-[4px_4px_0px_#111111] self-start md:self-auto">
           {(['7d', '14d', '30d'] as const).map((r) => (
             <button
               key={r}
               onClick={() => setTimeRange(r as any)}
-              className={`px-3 py-1 rounded-[var(--radius-md)] text-xs font-semibold transition-all ${
+              className={`px-4 py-2 rounded-[14px] font-extrabold text-sm border-2 border-[#111111] transition-all cursor-pointer ${
                 timeRange === (r as any)
-                  ? 'bg-[var(--color-surface)] text-[var(--color-text-primary)] shadow-sm'
-                  : 'text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]'
+                  ? 'bg-[var(--color-accent)] text-white shadow-[2px_2px_0px_#111111]'
+                  : 'bg-transparent text-[var(--color-text-primary)] border-transparent hover:border-[#111111] hover:bg-[var(--color-surface)]'
               }`}
             >
               Last {r.replace('d', ' Days')}

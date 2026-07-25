@@ -21,11 +21,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, leftIcon, rightIcon, className = '', id, ...props }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
     return (
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-3">
         {label && (
           <Label.Root
             htmlFor={inputId}
-            className="text-sm font-bold tracking-wide uppercase text-[var(--color-text-primary)]"
+            className="text-sm font-extrabold tracking-wide uppercase text-[var(--color-text-primary)]"
           >
             {label}
           </Label.Root>
@@ -40,9 +40,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={`
-              w-full h-12 rounded-[16px] px-4 font-semibold text-base
-              ${leftIcon ? 'pl-11' : ''}
-              ${rightIcon ? 'pr-11' : ''}
+              w-full h-14 rounded-[16px] px-4 font-bold text-base
+              ${leftIcon ? 'pl-12' : ''}
+              ${rightIcon ? 'pr-12' : ''}
               bg-[var(--color-surface)]
               border-4 border-[#111111]
               text-[var(--color-text-primary)]
@@ -62,7 +62,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
         {error && (
-          <span className="text-xs font-bold text-[var(--color-danger)]">{error}</span>
+          <span className="text-sm font-bold text-[var(--color-danger)]">{error}</span>
         )}
       </div>
     )

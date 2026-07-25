@@ -59,7 +59,7 @@ export default function CollegePage() {
   const currentSemId = activeSemesterId ?? semesters[0]?.id
 
   const subjects = useLiveQuery(() => 
-    currentSemId ? db.collegeSubjects.where('semesterId').equals(currentSemId).toArray() : []
+    currentSemId && typeof currentSemId === 'string' ? db.collegeSubjects.where('semesterId').equals(currentSemId).toArray() : []
   , [currentSemId]) ?? []
 
   const allSubjects = useLiveQuery(() => db.collegeSubjects.toArray()) ?? []

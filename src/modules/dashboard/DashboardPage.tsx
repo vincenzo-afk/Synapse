@@ -121,23 +121,23 @@ export default function DashboardPage() {
   const visibleWidgets = layout.filter((w) => editMode || w.visible).sort((a, b) => a.position - b.position)
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8">
+    <div className="max-w-6xl mx-auto space-y-12">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between p-6 rounded-[24px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[6px_6px_0px_#111111] gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between p-8 rounded-[24px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[8px_8px_0px_#111111] gap-6">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-[18px] border-4 border-[#111111] bg-[var(--color-accent)] text-white flex items-center justify-center shadow-[4px_4px_0px_#111111]">
-            <LayoutGrid size={28} strokeWidth={2.5} />
+          <div className="w-16 h-16 rounded-[20px] border-4 border-[#111111] bg-[var(--color-accent)] text-white flex items-center justify-center shadow-[4px_4px_0px_#111111] shrink-0">
+            <LayoutGrid size={32} strokeWidth={2.5} />
           </div>
           <div>
-            <h1 className="text-3xl font-black tracking-tight text-[var(--color-text-primary)]">Custom Dashboard</h1>
-            <p className="text-base font-semibold text-[var(--color-text-secondary)]">Neo-Brutalist Command Center & Modular Layout</p>
+            <h1 className="text-[44px] font-black tracking-tight text-[var(--color-text-primary)] leading-tight">Custom Dashboard</h1>
+            <p className="text-lg font-extrabold text-[var(--color-text-secondary)]">Neo-Brutalist Command Center & Modular Layout</p>
           </div>
         </div>
         <Button
-          size="md"
+          size="lg"
           variant={editMode ? 'primary' : 'secondary'}
           onClick={() => setEditMode(!editMode)}
-          leftIcon={<Sparkles size={18} />}
+          leftIcon={<Sparkles size={22} />}
         >
           {editMode ? 'Finish Customizing' : 'Customize Layout'}
         </Button>
@@ -150,11 +150,11 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
-            className="p-5 rounded-[20px] border-4 border-[#111111] bg-[#fef3c7] text-[#92400e] shadow-[6px_6px_0px_#111111] flex items-center justify-between font-bold"
+            className="p-6 rounded-[22px] border-4 border-[#111111] bg-[#fef3c7] text-[#92400e] shadow-[8px_8px_0px_#111111] flex items-center justify-between font-bold"
           >
-            <div className="flex items-center gap-3">
-              <ShieldAlert size={24} className="text-[#f59e0b] shrink-0" />
-              <span>Layout Editing Mode Active: Reorder, resize, or hide widgets below. Changes persist instantly to Dexie DB.</span>
+            <div className="flex items-center gap-4">
+              <ShieldAlert size={28} className="text-[#f59e0b] shrink-0" />
+              <span className="text-base">Layout Editing Mode Active: Reorder, resize, or hide widgets below. Changes persist instantly to Dexie DB.</span>
             </div>
             <Badge variant="warning">Edit Mode</Badge>
           </motion.div>
@@ -162,18 +162,18 @@ export default function DashboardPage() {
       </AnimatePresence>
 
       {/* Neo-Brutalist Grid (22px Radius Widgets) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {visibleWidgets.map((widget, idx) => {
-          const info = WIDGET_TITLES[widget.type] ?? { label: widget.type, icon: <LayoutGrid size={20} />, color: 'var(--color-accent)' }
+          const info = WIDGET_TITLES[widget.type] ?? { label: widget.type, icon: <LayoutGrid size={22} />, color: 'var(--color-accent)' }
           const colSpanClass = widget.size === 'lg' ? 'md:col-span-3' : widget.size === 'md' ? 'md:col-span-2' : 'md:col-span-1'
           const isHidden = !widget.visible
 
           return (
             <div key={widget.id} className={`${colSpanClass} ${isHidden ? 'opacity-50' : ''}`}>
-              <div className="h-full flex flex-col justify-between p-6 rounded-[22px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[6px_6px_0px_#111111] hover:shadow-[8px_8px_0px_#111111] transition-all">
+              <div className="h-full flex flex-col justify-between p-8 rounded-[22px] border-4 border-[#111111] bg-[var(--color-surface)] shadow-[8px_8px_0px_#111111] hover:shadow-[10px_10px_0px_#111111] transition-all">
                 {/* Header */}
-                <div className="flex items-center justify-between mb-5 pb-4 border-b-4 border-[#111111]">
-                  <div className="flex items-center gap-2.5 font-extrabold text-lg text-[var(--color-text-primary)]">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b-4 border-[#111111] gap-4">
+                  <div className="flex items-center gap-3 font-extrabold text-[22px] text-[var(--color-text-primary)] leading-snug">
                     <span style={{ color: info.color }}>{info.icon}</span>
                     <span>{info.label}</span>
                   </div>
