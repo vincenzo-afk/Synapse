@@ -14,12 +14,12 @@ export default defineConfig({
     tailwindcss(),
     react(),
     VitePWA({
-      registerType: 'prompt', // 'prompt' not 'autoUpdate' — avoid interrupting in-progress timers/entries (failure mode mitigation)
+      registerType: 'autoUpdate',
       injectRegister: 'auto',
       workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
-        // Cache all routes including code-split module chunks so the app boots
-        // fully offline from any route after install — not just the initial route.
         runtimeCaching: [],
       },
       includeAssets: ['fonts/**', 'icons/**'],

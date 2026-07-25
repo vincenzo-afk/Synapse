@@ -5,10 +5,14 @@
  */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { registerSW } from 'virtual:pwa-register'
 import { AppRouter } from './router'
 import './styles/globals.css'
 import { timerEngine } from './engines/timer-engine'
 import { reminderEngine } from './engines/reminder-engine'
+
+// Auto-update service worker immediately to clear stale cached JS chunks
+registerSW({ immediate: true })
 
 // Initialize engines as singletons before React renders
 void timerEngine.initialize()
