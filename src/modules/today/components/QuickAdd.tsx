@@ -1,109 +1,87 @@
 /**
- * Quick Add — omnibox-style input that parses intent from text.
- * Delegates writes to the relevant module's repository via engines.
- * Uses a simple local heuristic parser — NO LLM calls (docs constraint).
+ * Quick Add — Omnibox natural language assistant with Groq AI Parser.
+ * Automatically parses intent and creates structured entities across Habits, Tasks, Hydration, Workout, etc.
  */
 import { useState } from 'react'
 import { Modal } from '../../../design-system/components/Modal'
 import { Input } from '../../../design-system/components/Input'
 import { Button } from '../../../design-system/components/Button'
-import { trackerEngine } from '../../../engines/tracker-engine'
-import { createTask } from '../../../db/repositories/tasks'
-import { localDateString } from '../../../db/repositories/habits'
-import { Zap, Droplets, CheckSquare, BookOpen } from 'lucide-react'
+import { parseAndExecuteNaturalLanguage, type AIParsedResult } from '../../../engines/ai-parser'
+import { Zap, Droplets, CheckSquare, BookOpen, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react'
 
 interface Props {
   open: boolean
   onClose: () => void
 }
 
-type ParsedIntent =
-  | { type: 'water'; ml: number }
-  | { type: 'task'; title: string }
-  | { type: 'note'; text: string }
-  | null
-
-/** Simple heuristic parser — no LLM, no network */
-function parseIntent(text: string): ParsedIntent {
-  const t = text.trim().toLowerCase()
-  // Water: "drink 500ml", "500 ml", "water 300"
-  const waterMatch = t.match(/(?:drink\s+)?(\d+)\s*(?:ml|milliliter)/i) ??
-    t.match(/^water\s+(\d+)/i)
-  if (waterMatch?.[1]) return { type: 'water', ml: parseInt(waterMatch[1]) }
-  // Task: starts with "task:" or "todo:" or "#task"
-  if (/^(?:task:|todo:|#task\s)/i.test(text)) {
-    return { type: 'task', title: text.replace(/^(?:task:|todo:|#task\s)/i, '').trim() }
-  }
-  // Default: if it looks like a sentence/short text → task
-  if (text.length > 3) return { type: 'task', title: text }
-  return null
-}
-
 const SUGGESTIONS = [
-  { label: 'Add water', prefix: '500ml', icon: <Droplets size={14} /> },
-  { label: 'Add task', prefix: 'task: ', icon: <CheckSquare size={14} /> },
-  { label: 'Journal note', prefix: 'note: ', icon: <BookOpen size={14} /> },
+  { label: 'Drink 4L water', prefix: 'Drink 4L water everyday', icon: <Droplets size={16} /> },
+  { label: 'Wake up 5AM', prefix: 'I want to start waking up at 5AM', icon: <Zap size={16} /> },
+  { label: 'Study Japanese', prefix: 'I study Japanese for 20 minutes', icon: <BookOpen size={16} /> },
+  { label: 'Chest Workout', prefix: 'Workout Chest every Monday', icon: <CheckSquare size={16} /> },
 ]
 
 export function QuickAdd({ open, onClose }: Props) {
   const [text, setText] = useState('')
   const [loading, setLoading] = useState(false)
-  const intent = parseIntent(text)
+  const [result, setResult] = useState<AIParsedResult | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   const submit = async () => {
-    if (!intent) return
+    if (!text.trim()) return
     setLoading(true)
+    setError(null)
+    setResult(null)
     try {
-      if (intent.type === 'water') {
-        await trackerEngine.logEntry({ type: 'water', amountMl: intent.ml })
-      } else if (intent.type === 'task') {
-        await createTask({
-          title: intent.title,
-          status: 'today',
-          priority: 'none',
-          tags: [],
-          dependsOn: [],
-          orderIndex: Date.now(),
-        })
-      }
-      setText('')
-      onClose()
+      const res = await parseAndExecuteNaturalLanguage(text)
+      setResult(res)
+      setTimeout(() => {
+        setText('')
+        setResult(null)
+        onClose()
+      }, 1200)
+    } catch (err: any) {
+      setError(err?.message || 'Failed to parse natural language input.')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <Modal open={open} onOpenChange={(v) => !v && onClose()} title="Quick Add" size="sm">
-      <div className="space-y-4">
+    <Modal open={open} onOpenChange={(v) => !v && onClose()} title="Smart AI Quick Add" size="md">
+      <div className="space-y-6">
+        <div className="p-4 rounded-[16px] border-3 border-[#111111] bg-[var(--color-surface-elevated)] space-y-2">
+          <div className="flex items-center gap-2 text-sm font-extrabold text-[var(--color-accent)]">
+            <Sparkles size={18} strokeWidth={2.5} />
+            <span>Groq Natural Language Assistant</span>
+          </div>
+          <p className="text-xs font-semibold text-[var(--color-text-secondary)]">
+            Type naturally (e.g. "I study Japanese for 20 minutes", "Drink 4L water", "I want to wake up at 5AM"). The AI parser will automatically extract parameters and create structured data.
+          </p>
+        </div>
+
         <Input
           autoFocus
-          placeholder="500ml water, task: review docs..."
+          placeholder="e.g. Drink 4L water everyday, I study Japanese for 20 minutes..."
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && void submit()}
-          leftIcon={<Zap size={14} />}
+          leftIcon={<Zap size={18} strokeWidth={2.5} className="text-[var(--color-accent)]" />}
         />
-        {intent && (
-          <div className="text-xs text-[var(--color-text-secondary)] bg-[var(--color-accent-subtle)] px-3 py-2 rounded-[var(--radius-md)]">
-            Will add: <strong className="text-[var(--color-accent)]">{intent.type}</strong>
-            {intent.type === 'water' && ` — ${intent.ml}ml`}
-            {intent.type === 'task' && ` — "${intent.title}"`}
-          </div>
-        )}
-        <div className="flex flex-wrap gap-2">
+
+        {/* Live Suggestions */}
+        <div className="flex flex-wrap gap-2.5">
           {SUGGESTIONS.map((s) => (
             <button
               key={s.label}
-              onClick={() => setText((prev) => prev + s.prefix)}
+              onClick={() => setText(s.prefix)}
               className="
-                flex items-center gap-1.5 text-xs px-2.5 py-1.5
-                rounded-[var(--radius-full)]
-                border border-[var(--color-border)]
-                text-[var(--color-text-secondary)]
-                hover:border-[var(--color-accent)]
-                hover:text-[var(--color-accent)]
-                transition-colors duration-150
+                flex items-center gap-2 text-xs font-bold px-3.5 py-2
+                rounded-[14px] border-3 border-[#111111]
+                bg-[var(--color-surface)] text-[var(--color-text-primary)]
+                shadow-[2px_2px_0px_#111111] hover:shadow-[4px_4px_0px_#111111]
+                active:translate-x-[1px] active:translate-y-[1px] active:shadow-none
+                transition-all duration-150 cursor-pointer
               "
             >
               {s.icon}
@@ -111,10 +89,29 @@ export function QuickAdd({ open, onClose }: Props) {
             </button>
           ))}
         </div>
-        <div className="flex gap-2 justify-end">
-          <Button variant="ghost" size="sm" onClick={onClose}>Cancel</Button>
-          <Button size="sm" onClick={() => void submit()} loading={loading} disabled={!intent}>
-            Add
+
+        {/* Result Feedback Banner */}
+        {result && (
+          <div className="p-4 rounded-[16px] border-3 border-[#111111] bg-[var(--color-success-subtle)] text-[var(--color-text-primary)] shadow-[3px_3px_0px_#111111] flex items-center gap-3">
+            <CheckCircle2 size={22} className="text-[var(--color-success)] stroke-[3] shrink-0" />
+            <div>
+              <div className="font-extrabold text-sm uppercase text-[var(--color-success)]">Created in {result.module}</div>
+              <div className="font-semibold text-xs text-[var(--color-text-primary)]">{result.actionSummary}</div>
+            </div>
+          </div>
+        )}
+
+        {error && (
+          <div className="p-4 rounded-[16px] border-3 border-[#111111] bg-[var(--color-danger-subtle)] text-[var(--color-danger)] font-bold text-xs flex items-center gap-2">
+            <AlertCircle size={18} />
+            <span>{error}</span>
+          </div>
+        )}
+
+        <div className="flex gap-3 justify-end pt-2">
+          <Button variant="secondary" size="md" onClick={onClose}>Cancel</Button>
+          <Button size="md" onClick={() => void submit()} loading={loading} disabled={!text.trim()}>
+            Parse & Add
           </Button>
         </div>
       </div>

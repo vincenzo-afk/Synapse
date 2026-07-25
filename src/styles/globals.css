@@ -1,49 +1,50 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────
-   Synapse Design System — CSS Variables
-   Follows docs/06-design-system.md
+   Synapse Design System — Modern Neo-Brutalism
    ───────────────────────────────────────────── */
 
 @theme {
-  /* Typography — Inter (self-hosted) */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  /* Typography — Space Grotesk */
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  /* Spacing — 4px base unit */
+  /* Spacing — Generous spacing */
   --spacing-1: 4px;
   --spacing-2: 8px;
   --spacing-3: 12px;
   --spacing-4: 16px;
   --spacing-6: 24px;
   --spacing-8: 32px;
+  --spacing-10: 40px;
   --spacing-12: 48px;
   --spacing-16: 64px;
 
-  /* Border radius */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
+  /* Border radius per spec */
+  --radius-sm: 12px;
+  --radius-md: 16px; /* Inputs: 16px */
+  --radius-lg: 18px; /* Buttons: 18px */
+  --radius-xl: 20px; /* Cards: 20px */
+  --radius-2xl: 22px; /* Widgets: 22px */
   --radius-full: 9999px;
 }
 
-/* ── Light theme (default) ── */
+/* ── Light theme ── */
 :root {
   color-scheme: light;
 
-  --color-background:        #f8f7ff;
+  --color-background:        #f4f4f6;
   --color-surface:           #ffffff;
   --color-surface-elevated:  #ffffff;
-  --color-border:            #e4e2f0;
-  --color-border-subtle:     #f0eef8;
-  --color-text-primary:      #1a1726;
-  --color-text-secondary:    #6b6480;
-  --color-text-tertiary:     #9e97b4;
+  --color-border:            #111111;
+  --color-border-subtle:     #111111;
+  --color-text-primary:      #111111;
+  --color-text-secondary:    #5a5a5a;
+  --color-text-tertiary:     #777777;
 
   --color-accent:            #7c6af7;
   --color-accent-hover:      #6b57f0;
-  --color-accent-subtle:     #ede9fe;
+  --color-accent-subtle:     #e9e6ff;
   --color-accent-fg:         #ffffff;
 
   --color-success:           #22c55e;
@@ -53,43 +54,46 @@
   --color-danger:            #ef4444;
   --color-danger-subtle:     #fee2e2;
 
-  /* Module colors */
-  --color-habits:     #7c6af7;
+  /* Module colors (high contrast vibrant) */
+  --color-habits:     #8b5cf6;
   --color-tasks:      #3b82f6;
   --color-workout:    #ef4444;
-  --color-nutrition:  #22c55e;
+  --color-nutrition:  #10b981;
   --color-hydration:  #06b6d4;
-  --color-sleep:      #8b5cf6;
+  --color-sleep:      #6366f1;
   --color-study:      #f59e0b;
   --color-journal:    #ec4899;
-  --color-finance:    #10b981;
-  --color-college:    #6366f1;
+  --color-finance:    #22c55e;
+  --color-college:    #8b5cf6;
   --color-vault:      #64748b;
   --color-personal:   #f97316;
 
-  /* Elevation shadows */
-  --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
-  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.08), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+  /* Neo-Brutalist Hard Shadows */
+  --shadow-neo:        6px 6px 0px #111111;
+  --shadow-neo-hover:  8px 8px 0px #111111;
+  --shadow-neo-pressed: 0px 0px 0px #111111;
+  --shadow-sm:         4px 4px 0px #111111;
+  --shadow-md:         6px 6px 0px #111111;
+  --shadow-lg:         8px 8px 0px #111111;
+  --shadow-xl:         12px 12px 0px #111111;
 }
 
-/* ── Dark theme ── */
-[data-theme="dark"] {
+/* ── Dark theme (Default) ── */
+[data-theme="dark"], html {
   color-scheme: dark;
 
-  --color-background:        #0d0d0f;
-  --color-surface:           #17161d;
-  --color-surface-elevated:  #1f1e27;
-  --color-border:            #2a2836;
-  --color-border-subtle:     #1f1e27;
-  --color-text-primary:      #f0eeff;
-  --color-text-secondary:    #9b93bc;
-  --color-text-tertiary:     #6b638a;
+  --color-background:        #111111;
+  --color-surface:           #1a1a1a;
+  --color-surface-elevated:  #242424;
+  --color-border:            #111111;
+  --color-border-subtle:     #262626;
+  --color-text-primary:      #f8f8f8;
+  --color-text-secondary:    #a0a0a0;
+  --color-text-tertiary:     #737373;
 
   --color-accent:            #7c6af7;
   --color-accent-hover:      #8f7eff;
-  --color-accent-subtle:     #2d2657;
+  --color-accent-subtle:     #2b2254;
   --color-accent-fg:         #ffffff;
 
   --color-success:           #4ade80;
@@ -99,10 +103,13 @@
   --color-danger:            #f87171;
   --color-danger-subtle:     #450a0a;
 
-  --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+  --shadow-neo:        6px 6px 0px #000000;
+  --shadow-neo-hover:  8px 8px 0px #000000;
+  --shadow-neo-pressed: 0px 0px 0px #000000;
+  --shadow-sm:         4px 4px 0px #000000;
+  --shadow-md:         6px 6px 0px #000000;
+  --shadow-lg:         8px 8px 0px #000000;
+  --shadow-xl:         12px 12px 0px #000000;
 }
 
 /* ── OLED theme (true black) ── */
@@ -110,30 +117,17 @@
   color-scheme: dark;
 
   --color-background:        #000000;
-  --color-surface:           #0a0a0a;
-  --color-surface-elevated:  #111111;
-  --color-border:            #222222;
-  --color-border-subtle:     #111111;
-  --color-text-primary:      #f0eeff;
-  --color-text-secondary:    #9b93bc;
-  --color-text-tertiary:     #5a5278;
+  --color-surface:           #111111;
+  --color-surface-elevated:  #1a1a1a;
+  --color-border:            #333333;
+  --color-border-subtle:     #222222;
+  --color-text-primary:      #ffffff;
+  --color-text-secondary:    #a3a3a3;
+  --color-text-tertiary:     #666666;
 
-  --color-accent:            #7c6af7;
-  --color-accent-hover:      #8f7eff;
-  --color-accent-subtle:     #1a1540;
-  --color-accent-fg:         #ffffff;
-
-  --color-success:           #4ade80;
-  --color-success-subtle:    #0a2e18;
-  --color-warning:           #fbbf24;
-  --color-warning-subtle:    #2d1500;
-  --color-danger:            #f87171;
-  --color-danger-subtle:     #2d0000;
-
-  --shadow-sm:  0 1px 2px 0 rgb(0 0 0 / 0.8);
-  --shadow-md:  0 4px 6px -1px rgb(0 0 0 / 0.9);
-  --shadow-lg:  0 10px 15px -3px rgb(0 0 0 / 0.9);
-  --shadow-xl:  0 20px 25px -5px rgb(0 0 0 / 0.9);
+  --shadow-neo:        6px 6px 0px #000000;
+  --shadow-neo-hover:  8px 8px 0px #000000;
+  --shadow-neo-pressed: 0px 0px 0px #000000;
 }
 
 /* ── Base reset ── */
@@ -147,6 +141,7 @@ html {
   font-family: var(--font-sans);
   background-color: var(--color-background);
   color: var(--color-text-primary);
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -155,6 +150,8 @@ html {
 body {
   min-height: 100dvh;
   overflow-x: hidden;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 #root {
@@ -163,33 +160,100 @@ body {
   flex-direction: column;
 }
 
-/* ── Scrollbars (subtle) ── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 9999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-text-tertiary);
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
-/* ── Focus ring ── */
+/* ── Scrollbars (Tactile) ── */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-elevated);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+/* ── Focus ring — High Contrast Neo Brutalist ── */
 :focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
+  outline: 4px solid var(--color-accent) !important;
+  outline-offset: 3px !important;
   border-radius: 4px;
 }
 
-/* ── Numeric/timer displays — monospace so digits don't jitter ── */
+/* ── Numeric/timer displays ── */
 .font-mono {
   font-family: var(--font-mono);
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+}
+
+/* ── Neo Brutalist Utilities ── */
+.neo-border {
+  border: 4px solid #111111;
+}
+
+.neo-shadow {
+  box-shadow: 6px 6px 0px #111111;
+}
+
+.neo-shadow-lg {
+  box-shadow: 8px 8px 0px #111111;
+}
+
+.neo-shadow-pressed {
+  box-shadow: 0px 0px 0px #111111;
+  transform: translate(4px, 4px);
+}
+
+.neo-card {
+  border: 4px solid #111111;
+  border-radius: 20px;
+  box-shadow: 6px 6px 0px #111111;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.neo-card:hover {
+  box-shadow: 8px 8px 0px #111111;
+  transform: translateY(-2px);
+}
+
+.neo-button {
+  border: 4px solid #111111;
+  border-radius: 18px;
+  box-shadow: 6px 6px 0px #111111;
+  font-weight: 700;
+  transition: all 0.15s ease;
+}
+
+.neo-button:hover {
+  box-shadow: 8px 8px 0px #111111;
+  transform: translateY(-2px);
+}
+
+.neo-button:active {
+  box-shadow: 0px 0px 0px #111111;
+  transform: translate(4px, 4px);
+}
+
+.neo-input {
+  border: 4px solid #111111;
+  border-radius: 16px;
+  font-weight: 600;
+}
+
+.neo-widget {
+  border: 4px solid #111111;
+  border-radius: 22px;
+  box-shadow: 6px 6px 0px #111111;
 }
 
 /* ── Animations ── */
@@ -200,24 +264,9 @@ body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
 
 .animate-spin { animation: spin 1s linear infinite; }
 .animate-pulse { animation: pulse 2s ease-in-out infinite; }
-.animate-fadeIn { animation: fadeIn 0.2s ease-out; }
-.animate-slideUp { animation: slideUp 0.25s ease-out; }
-.animate-scaleIn { animation: scaleIn 0.2s ease-out; }
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {

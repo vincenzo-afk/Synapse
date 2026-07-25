@@ -1,5 +1,6 @@
 /**
- * Card component — the primary surface container in the design system.
+ * Card component — Modern Neo-Brutalist container.
+ * 4px solid borders, hard 6px 6px shadow, 20px radius, generous padding.
  */
 import { type HTMLAttributes, type ReactNode } from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
@@ -7,21 +8,24 @@ import { motion, type HTMLMotionProps } from 'framer-motion'
 interface CardProps extends HTMLMotionProps<'div'> {
   elevated?: boolean
   interactive?: boolean
-  padding?: 'none' | 'sm' | 'md' | 'lg'
+  accentColor?: string
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
   className?: string
   children: ReactNode
 }
 
 const paddingStyles = {
   none: '',
-  sm: 'p-3',
-  md: 'p-4',
-  lg: 'p-6',
+  sm: 'p-4',
+  md: 'p-6',
+  lg: 'p-8',
+  xl: 'p-10',
 }
 
 export function Card({
   elevated = false,
   interactive = false,
+  accentColor,
   padding = 'md',
   className = '',
   children,
@@ -30,15 +34,23 @@ export function Card({
   return (
     <motion.div
       className={`
-        rounded-[var(--radius-lg)]
-        border border-[var(--color-border)]
-        ${elevated ? 'bg-[var(--color-surface-elevated)] shadow-[var(--shadow-md)]' : 'bg-[var(--color-surface)] shadow-[var(--shadow-sm)]'}
-        ${interactive ? 'cursor-pointer transition-all duration-200 hover:shadow-[var(--shadow-md)] hover:border-[var(--color-accent)] hover:-translate-y-0.5' : ''}
+        relative overflow-hidden
+        rounded-[20px]
+        border-4 border-[#111111]
+        bg-[var(--color-surface)]
+        shadow-[6px_6px_0px_#111111]
+        ${interactive ? 'cursor-pointer transition-all duration-200 hover:shadow-[8px_8px_0px_#111111] hover:-translate-y-1 active:translate-x-[2px] active:translate-y-[2px] active:shadow-[4px_4px_0px_#111111]' : ''}
         ${paddingStyles[padding]}
         ${className}
       `}
       {...props}
     >
+      {accentColor && (
+        <div
+          className="absolute top-0 left-0 right-0 h-2.5 border-b-4 border-[#111111]"
+          style={{ backgroundColor: accentColor }}
+        />
+      )}
       {children}
     </motion.div>
   )
@@ -48,7 +60,7 @@ export function Card({
 
 export function CardHeader({ className = '', children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`flex items-center justify-between mb-4 ${className}`} {...props}>
+    <div className={`flex items-center justify-between mb-5 gap-4 ${className}`} {...props}>
       {children}
     </div>
   )
@@ -57,7 +69,7 @@ export function CardHeader({ className = '', children, ...props }: HTMLAttribute
 export function CardTitle({ className = '', children, ...props }: HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={`text-base font-semibold text-[var(--color-text-primary)] ${className}`}
+      className={`text-xl font-bold tracking-tight text-[var(--color-text-primary)] ${className}`}
       {...props}
     >
       {children}
@@ -75,7 +87,7 @@ export function CardContent({ className = '', children, ...props }: HTMLAttribut
 
 export function CardFooter({ className = '', children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`mt-4 pt-4 border-t border-[var(--color-border)] flex items-center gap-2 ${className}`} {...props}>
+    <div className={`mt-6 pt-5 border-t-4 border-[#111111] flex items-center gap-3 ${className}`} {...props}>
       {children}
     </div>
   )

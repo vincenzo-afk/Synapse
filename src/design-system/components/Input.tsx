@@ -1,8 +1,8 @@
 /**
- * Form input components — Input, Textarea, Select, Checkbox, Toggle, Slider
- * All use design tokens and Radix primitives for accessibility.
+ * Form input components — Neo-Brutalist Input, Textarea, Checkbox, Toggle (Switch)
+ * 4px solid borders, 16px radius, hard shadows, physical feel.
  */
-import { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes, type SelectHTMLAttributes } from 'react'
+import { forwardRef, type InputHTMLAttributes, type TextareaHTMLAttributes } from 'react'
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import * as SwitchPrimitive from '@radix-ui/react-switch'
 import * as Label from '@radix-ui/react-label'
@@ -21,18 +21,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, leftIcon, rightIcon, className = '', id, ...props }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         {label && (
           <Label.Root
             htmlFor={inputId}
-            className="text-sm font-medium text-[var(--color-text-secondary)]"
+            className="text-sm font-bold tracking-wide uppercase text-[var(--color-text-primary)]"
           >
             {label}
           </Label.Root>
         )}
         <div className="relative">
           {leftIcon && (
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-tertiary)]">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-primary)]">
               {leftIcon}
             </span>
           )}
@@ -40,29 +40,29 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             ref={ref}
             id={inputId}
             className={`
-              w-full h-10 rounded-[var(--radius-md)] px-3
-              ${leftIcon ? 'pl-9' : ''}
-              ${rightIcon ? 'pr-9' : ''}
-              bg-[var(--color-surface-elevated)]
-              border border-[var(--color-border)]
-              text-[var(--color-text-primary)] text-sm
-              placeholder:text-[var(--color-text-tertiary)]
-              transition-colors duration-150
-              focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)]
-              disabled:opacity-50 disabled:cursor-not-allowed
-              ${error ? 'border-[var(--color-danger)] focus:border-[var(--color-danger)] focus:ring-[var(--color-danger)]' : ''}
+              w-full h-12 rounded-[16px] px-4 font-semibold text-base
+              ${leftIcon ? 'pl-11' : ''}
+              ${rightIcon ? 'pr-11' : ''}
+              bg-[var(--color-surface)]
+              border-4 border-[#111111]
+              text-[var(--color-text-primary)]
+              placeholder:text-[var(--color-text-tertiary)] placeholder:font-medium
+              transition-all duration-150
+              focus:outline-none focus:ring-4 focus:ring-[var(--color-accent)]
+              disabled:opacity-40 disabled:cursor-not-allowed
+              ${error ? 'border-[var(--color-danger)] focus:ring-[var(--color-danger)]' : ''}
               ${className}
             `}
             {...props}
           />
           {rightIcon && (
-            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-tertiary)]">
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--color-text-primary)]">
               {rightIcon}
             </span>
           )}
         </div>
         {error && (
-          <span className="text-xs text-[var(--color-danger)]">{error}</span>
+          <span className="text-xs font-bold text-[var(--color-danger)]">{error}</span>
         )}
       </div>
     )
@@ -81,9 +81,9 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   ({ label, error, className = '', id, rows = 4, ...props }, ref) => {
     const inputId = id ?? label?.toLowerCase().replace(/\s+/g, '-')
     return (
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         {label && (
-          <Label.Root htmlFor={inputId} className="text-sm font-medium text-[var(--color-text-secondary)]">
+          <Label.Root htmlFor={inputId} className="text-sm font-bold tracking-wide uppercase text-[var(--color-text-primary)]">
             {label}
           </Label.Root>
         )}
@@ -92,26 +92,26 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           id={inputId}
           rows={rows}
           className={`
-            w-full rounded-[var(--radius-md)] px-3 py-2.5
-            bg-[var(--color-surface-elevated)]
-            border border-[var(--color-border)]
-            text-[var(--color-text-primary)] text-sm
-            placeholder:text-[var(--color-text-tertiary)]
-            transition-colors duration-150 resize-none
-            focus:outline-none focus:border-[var(--color-accent)] focus:ring-1 focus:ring-[var(--color-accent)]
+            w-full rounded-[16px] px-4 py-3 font-semibold text-base
+            bg-[var(--color-surface)]
+            border-4 border-[#111111]
+            text-[var(--color-text-primary)]
+            placeholder:text-[var(--color-text-tertiary)] placeholder:font-medium
+            transition-all duration-150 resize-none
+            focus:outline-none focus:ring-4 focus:ring-[var(--color-accent)]
             ${error ? 'border-[var(--color-danger)]' : ''}
             ${className}
           `}
           {...props}
         />
-        {error && <span className="text-xs text-[var(--color-danger)]">{error}</span>}
+        {error && <span className="text-xs font-bold text-[var(--color-danger)]">{error}</span>}
       </div>
     )
   }
 )
 Textarea.displayName = 'Textarea'
 
-// ─── Checkbox ─────────────────────────────────
+// ─── Neo-Brutalist Checkbox ────────────────────
 
 interface CheckboxProps {
   id?: string
@@ -124,32 +124,32 @@ interface CheckboxProps {
 export function Checkbox({ id, label, checked, onCheckedChange, disabled }: CheckboxProps) {
   const checkId = id ?? `checkbox-${label?.replace(/\s+/g, '-')}`
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-3">
       <CheckboxPrimitive.Root
         id={checkId}
         checked={checked}
         onCheckedChange={onCheckedChange}
         disabled={disabled}
         className={`
-          w-5 h-5 rounded-[var(--radius-sm)]
-          border-2 border-[var(--color-border)]
-          bg-[var(--color-surface-elevated)]
+          w-7 h-7 rounded-[8px]
+          border-4 border-[#111111]
+          bg-[var(--color-surface)]
           data-[state=checked]:bg-[var(--color-accent)]
-          data-[state=checked]:border-[var(--color-accent)]
+          shadow-[3px_3px_0px_#111111]
+          active:shadow-none active:translate-x-[2px] active:translate-y-[2px]
           transition-all duration-150 cursor-pointer
-          focus-visible:outline-2 focus-visible:outline-[var(--color-accent)] focus-visible:outline-offset-2
-          disabled:opacity-50 disabled:cursor-not-allowed
-          flex items-center justify-center
+          disabled:opacity-40 disabled:cursor-not-allowed
+          flex items-center justify-center shrink-0
         `}
       >
         <CheckboxPrimitive.Indicator>
-          <Check size={12} className="text-white stroke-[3]" />
+          <Check size={16} className="text-white stroke-[3.5]" />
         </CheckboxPrimitive.Indicator>
       </CheckboxPrimitive.Root>
       {label && (
         <Label.Root
           htmlFor={checkId}
-          className="text-sm text-[var(--color-text-primary)] cursor-pointer select-none"
+          className="text-base font-bold text-[var(--color-text-primary)] cursor-pointer select-none"
         >
           {label}
         </Label.Root>
@@ -158,7 +158,7 @@ export function Checkbox({ id, label, checked, onCheckedChange, disabled }: Chec
   )
 }
 
-// ─── Toggle (Switch) ──────────────────────────
+// ─── Custom Neo-Brutalist Toggle (Switch) ───────
 
 interface ToggleProps {
   id?: string
@@ -178,26 +178,27 @@ export function Toggle({ id, label, checked, onCheckedChange, disabled }: Toggle
         onCheckedChange={onCheckedChange}
         disabled={disabled}
         className={`
-          w-11 h-6 rounded-full
-          bg-[var(--color-border)]
+          w-16 h-9 rounded-full
+          border-4 border-[#111111]
+          bg-[var(--color-surface)]
           data-[state=checked]:bg-[var(--color-accent)]
+          shadow-[4px_4px_0px_#111111]
           transition-all duration-200 cursor-pointer
-          disabled:opacity-50 disabled:cursor-not-allowed
-          focus-visible:outline-2 focus-visible:outline-[var(--color-accent)] focus-visible:outline-offset-2
-          relative inline-flex items-center
+          disabled:opacity-40 disabled:cursor-not-allowed
+          relative inline-flex items-center p-0.5
         `}
       >
         <SwitchPrimitive.Thumb
           className={`
-            block w-5 h-5 rounded-full bg-white shadow-sm
+            block w-6 h-6 rounded-full bg-white border-2 border-[#111111] shadow-sm
             transition-transform duration-200
             data-[state=unchecked]:translate-x-0.5
-            data-[state=checked]:translate-x-5
+            data-[state=checked]:translate-x-7
           `}
         />
       </SwitchPrimitive.Root>
       {label && (
-        <Label.Root htmlFor={toggleId} className="text-sm text-[var(--color-text-primary)] cursor-pointer">
+        <Label.Root htmlFor={toggleId} className="text-base font-bold text-[var(--color-text-primary)] cursor-pointer select-none">
           {label}
         </Label.Root>
       )}

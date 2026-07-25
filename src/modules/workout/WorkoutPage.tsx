@@ -3,7 +3,7 @@
  * Stores weights canonically in kg (converts for display per settings).
  * See docs/09-modules/workout.md.
  */
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Dumbbell, Plus, Play, Check, Timer, Award, Scale, Trash2 } from 'lucide-react'
@@ -37,17 +37,19 @@ export default function WorkoutPage() {
   const [customExerciseName, setCustomExerciseName] = useState('')
   const [customMuscleGroup, setCustomMuscleGroup] = useState('Chest')
 
-  const exercises = useLiveQuery(async () => {
-    const list = await db.exercises.toArray()
-    if (list.length === 0) {
-      // Seed default exercises if empty
-      const now = new Date().toISOString()
-      const seeded = DEFAULT_EXERCISES.map((e) => ({ ...e, id: uuid(), createdAt: now, updatedAt: now }))
-      await db.exercises.bulkAdd(seeded)
-      return seeded
+  const exercises = useLiveQuery(() => db.exercises.toArray()) ?? []
+
+  useEffect(() => {
+    const seedIfNeeded = async () => {
+      const list = await db.exercises.toArray()
+      if (list.length === 0) {
+        const now = new Date().toISOString()
+        const seeded = DEFAULT_EXERCISES.map((e) => ({ ...e, id: uuid(), createdAt: now, updatedAt: now }))
+        await db.exercises.bulkAdd(seeded)
+      }
     }
-    return list
-  }) ?? []
+    void seedIfNeeded()
+  }, [])
 
   const sessions = useLiveQuery(() => db.workoutSessions.orderBy('date').reverse().limit(10).toArray()) ?? []
   const measurements = useLiveQuery(() => db.bodyMeasurements.orderBy('date').reverse().limit(10).toArray()) ?? []
