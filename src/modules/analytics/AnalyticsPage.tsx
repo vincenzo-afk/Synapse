@@ -62,7 +62,7 @@ export function calculateDailyScore(input: DailyMetricsInput): {
 // ─── Page Component ────────────────────────────────────────────────────────
 
 export default function AnalyticsPage() {
-  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d'>('14d' as any) // Default 14 days for clean chart rendering
+  const [timeRange, setTimeRange] = useState<'7d' | '14d' | '30d'>('14d') // Default 14 days for clean chart rendering
   const daysCount = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 14
 
   // Fetch recent logs across modules
@@ -171,9 +171,9 @@ export default function AnalyticsPage() {
           {(['7d', '14d', '30d'] as const).map((r) => (
             <button
               key={r}
-              onClick={() => setTimeRange(r as any)}
+              onClick={() => setTimeRange(r)}
               className={`px-4 py-2 rounded-[14px] font-extrabold text-sm border-2 border-[#111111] transition-all cursor-pointer ${
-                timeRange === (r as any)
+                timeRange === r
                   ? 'bg-[var(--color-accent)] text-white shadow-[2px_2px_0px_#111111]'
                   : 'bg-transparent text-[var(--color-text-primary)] border-transparent hover:border-[#111111] hover:bg-[var(--color-surface)]'
               }`}

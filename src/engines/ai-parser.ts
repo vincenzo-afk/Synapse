@@ -210,24 +210,26 @@ async function commitParsedIntentToDatabase(intent: any, originalText: string): 
   switch (mod) {
     case 'hydration': {
       const amount = intent.targetValue || 4000
-      await db.nutritionGoals.add({
-        id: 'singleton',
-        waterTargetMl: amount,
-        updatedAt: now,
-      }).catch(() => db.nutritionGoals.update('singleton', { waterTargetMl: amount, updatedAt: now }))
+      const loggedAmount = Math.min(Math.max(Math.round(amount / 400) * 250, 250), amount) // round to nearest 250ml, capped at the goal
+      const existingGoals = await db.nutritionGoals.get('singleton')
+      if (existingGoals) {
+        await db.nutritionGoals.update('singleton', { waterTargetMl: amount, updatedAt: now })
+      } else {
+        await db.nutritionGoals.add({ id: 'singleton', waterTargetMl: amount, updatedAt: now })
+      }
 
       await db.waterLogs.add({
         id: uuid(),
         date: today,
-        amountMl: 250,
+        amountMl: loggedAmount,
         loggedAt: now,
       })
 
       return {
         success: true,
         module: 'Hydration',
-        actionSummary: `Updated Daily Hydration Goal to ${amount}ml and logged +250ml water intake.`,
-        createdEntity: { goalMl: amount },
+        actionSummary: `Updated Daily Hydration Goal to ${amount}ml and logged +${loggedAmount}ml water intake.`,
+        createdEntity: { goalMl: amount, loggedMl: loggedAmount },
       }
     }
 

@@ -43,7 +43,7 @@ export function DataPortability() {
         'studySubjects', 'studySessions', 'collegeSemesters', 'collegeSubjects',
         'collegeAttendance', 'collegeAssignments', 'collegeExams',
         'journalEntries', 'vaultItems', 'personalEvents', 'calendarEvents',
-        'reminders', 'timerRecords', 'settings', 'transactions'
+        'reminders', 'timers', 'financeEntries', 'settings'
       ]
       if (includeBlobs) {
         allTables.push('fileBlobs')
@@ -159,7 +159,7 @@ export function DataPortability() {
         'studySubjects', 'studySessions', 'collegeSemesters', 'collegeSubjects',
         'collegeAttendance', 'collegeAssignments', 'collegeExams',
         'journalEntries', 'vaultItems', 'personalEvents', 'calendarEvents',
-        'reminders', 'timerRecords', 'fileBlobs', 'settings', 'transactions'
+        'reminders', 'timers', 'fileBlobs', 'financeEntries', 'settings'
       ]
 
       const dexieTables = allTables.map((t) => (db as any)[t]).filter(Boolean)
@@ -336,7 +336,7 @@ export function DataPortability() {
           <Button size="xs" variant="secondary" onClick={() => void exportCSV('habitLogs', 'Habit Logs')}>
             Habit Logs CSV
           </Button>
-          <Button size="xs" variant="secondary" onClick={() => void exportCSV('transactions', 'Finance Ledger')}>
+          <Button size="xs" variant="secondary" onClick={() => void exportCSV('financeEntries', 'Finance Ledger')}>
             Finance CSV
           </Button>
           <Button size="xs" variant="secondary" onClick={() => void exportCSV('workoutSessions', 'Workouts')}>
